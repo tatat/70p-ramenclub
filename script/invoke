@@ -1,0 +1,5 @@
+#!/bin/bash
+
+BASE_DIR="$(dirname "$(cd "$(dirname "$0")"; pwd)")"
+
+sam local invoke --env-vars "$BASE_DIR/env-vars.json" --no-event

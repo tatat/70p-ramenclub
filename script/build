@@ -1,0 +1,5 @@
+#!/bin/bash
+
+BASE_DIR="$(dirname "$(cd "$(dirname "$0")"; pwd)")"
+
+sam build --use-container --template "$BASE_DIR/template.yml"

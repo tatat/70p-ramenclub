@@ -1,0 +1,60 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  70p-ramenclub
+
+  SAM Template for 70p-ramenclub
+
+Parameters:
+  TwitterConsumerKey:
+    Type: String
+
+  TwitterConsumerSecret:
+    Type: String
+
+  TwitterAccessToken:
+    Type: String
+
+  TwitterAccessTokenSecret:
+    Type: String
+
+  KmlUrl:
+    Type: String
+
+Globals:
+  Function:
+    Timeout: 300
+
+Resources:
+  S3Bucket:
+    Type: AWS::S3::Bucket
+
+  WorkerFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: worker/
+      Handler: worker.lambda_handler
+      Runtime: python3.8
+      Events:
+        Worker:
+          Type: Schedule
+          Properties:
+            Schedule: rate(1 minute)
+      Environment:
+        Variables:
+          TWITTER_CONSUMER_KEY: !Ref TwitterConsumerKey
+          TWITTER_CONSUMER_SECRET: !Ref TwitterConsumerSecret
+          TWITTER_ACCESS_TOKEN: !Ref TwitterAccessToken
+          TWITTER_ACCESS_TOKEN_SECRET: !Ref TwitterAccessTokenSecret
+          KML_URL: !Ref KmlUrl
+          S3_BUCKET: !Ref S3Bucket
+      Policies:
+        - S3CrudPolicy:
+            BucketName: !Ref S3Bucket 
+
+Outputs:
+  WorkerFunction:
+    Value: !GetAtt WorkerFunction.Arn
+
+  WorkerFunctionIamRole:
+    Value: !GetAtt WorkerFunctionRole.Arn

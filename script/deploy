@@ -1,0 +1,12 @@
+#!/bin/bash
+
+sam deploy \
+  --stack-name "$STACK_NAME" \
+  --s3-bucket "$S3_DEPLOYMENT_BUCKET" \
+  --parameter-overrides \
+    TwitterConsumerKey="$TWITTER_CONSUMER_KEY" \
+    TwitterConsumerSecret="$TWITTER_CONSUMER_SECRET" \
+    TwitterAccessToken="$TWITTER_ACCESS_TOKEN" \
+    TwitterAccessTokenSecret="$TWITTER_ACCESS_TOKEN_SECRET" \
+    KmlUrl="$KML_URL" \
+  --capabilities CAPABILITY_IAM
