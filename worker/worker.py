@@ -25,7 +25,7 @@ https://www.google.com/maps/d/viewer?mid=1L6R9EqLu2YM3J-_ojg08ySgdcKboPwye&ll={l
     """.format(**{ **data, **extra_data })
 
 
-@retry(stop=stop_after_attempt(3), wait=wait_random(min=1, max=3))
+@retry(reraise=True, stop=stop_after_attempt(3), wait=wait_random(min=1, max=3))
 def run_task(data, oauth):
     media_ids = []
 
@@ -89,7 +89,7 @@ def lambda_handler(event, context):
         try:
             run_task(d, oauth)
         except Exception as e:
-            print(e)
+            print('Error: {}'.format(e))
 
     return {
         'data': data,
