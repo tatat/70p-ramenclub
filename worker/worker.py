@@ -19,7 +19,6 @@ def render(data):
 
     return """
 {name}
-{lat},{lng}
 
 https://www.google.com/maps/d/viewer?mid=1L6R9EqLu2YM3J-_ojg08ySgdcKboPwye&ll={lat}%2C{lng}&z=14
     """.format(**{ **data, **extra_data })
