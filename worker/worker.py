@@ -52,7 +52,7 @@ def run_task(data, oauth):
     params = { 'status': render(data) }
 
     if len(media_ids) > 0:
-        params['media_ids'] = ','.join(media_ids)
+        params['media_ids'] = ','.join(media_ids[0:4])
 
     response = oauth.post('https://api.twitter.com/1.1/statuses/update.json', data=params)
 
