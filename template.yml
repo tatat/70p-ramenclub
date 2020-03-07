@@ -58,3 +58,6 @@ Outputs:
 
   WorkerFunctionIamRole:
     Value: !GetAtt WorkerFunctionRole.Arn
+
+  S3Bucket:
+    Value: !Ref S3Bucket
