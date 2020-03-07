@@ -33,8 +33,7 @@ def run_task(data, oauth):
         response = requests.get(media, stream=True)
 
         if response.status_code != 200:
-            print('Error: {}'.format(response.text))
-            continue
+            raise Exception('status_code={}, response={}'.format(response.status_code, response.text))
 
         with tempfile.TemporaryFile() as f:
             response.raw.decode_content = True
@@ -48,7 +47,7 @@ def run_task(data, oauth):
 
                 media_ids.append(json.loads(response.text).get('media_id_string'))
             else:
-                print('Error: {}'.format(response.text))
+                raise Exception('status_code={}, response={}'.format(response.status_code, response.text))
 
     params = { 'status': render(data) }
 
@@ -58,7 +57,7 @@ def run_task(data, oauth):
     response = oauth.post('https://api.twitter.com/1.1/statuses/update.json', data=params)
 
     if response.status_code != 200:
-        print('Error: {}'.format(response.text))
+        raise Exception('status_code={}, response={}'.format(response.status_code, response.text))
     else:
         print('Posted: {}'.format(response.text))
 
